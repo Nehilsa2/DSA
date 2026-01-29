@@ -10,7 +10,7 @@ public:
             int ny = y + dy[d];
 
             if(nx>=0 && ny>=0 && ny<m && nx<n){
-                if(board[nx][ny]){
+                if(abs(board[nx][ny])==1){
                     cnt++;
                 }
             }
@@ -19,27 +19,39 @@ public:
         return cnt;
     }
     void gameOfLife(vector<vector<int>>& board) {
-        vector<vector<int>>newboard = board;
+        
         n = board.size();
         m = board[0].size();
 
         for(int i=0;i<n;i++){
             int livecells = 0;
             for(int j=0;j<m;j++){
-                livecells = interactNeighbours(i,j,newboard);
+                livecells = interactNeighbours(i,j,board);
 
                 if(board[i][j]){
                     if(livecells==2 || livecells==3){
                         board[i][j] = 1;
                     }
                     else{
-                        board[i][j] = 0;
+                        //dead
+                        board[i][j] = -1;
                     }
                 }
                 else{
                     if(livecells==3){
-                        board[i][j]=1;
+                        board[i][j]=2;
                     }
+                }
+            }
+        }
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==-1){
+                    board[i][j]=0;
+                }
+                else if(board[i][j]==2){
+                    board[i][j]=1;
                 }
             }
         }
