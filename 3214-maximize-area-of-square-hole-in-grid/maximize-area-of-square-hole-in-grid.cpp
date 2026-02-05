@@ -1,81 +1,33 @@
 class Solution {
 public:
+    int longestHole(vector<int>& a) {
+        if (a.empty()) return 1;
+
+        sort(a.begin(), a.end());
+
+        int best = 1;
+        int cur = 1;
+
+        for (int i = 1; i < a.size(); i++) {
+            if (a[i] == a[i-1] + 1) {
+                cur++;
+            } else if (a[i] != a[i-1]) {
+                best = max(best, cur);
+                cur = 1;
+            }
+        }
+
+        best = max(best, cur);
+
+        
+        return best + 1;
+    }
+
     int maximizeSquareHoleArea(int n, int m, vector<int>& hBars, vector<int>& vBars) {
-        int maxbhole  = INT_MIN;
-        int maxlhole = INT_MIN;
+        int H = longestHole(hBars);
+        int V = longestHole(vBars);
 
-        int x = hBars.size();
-        int y = vBars.size();
-
-        unordered_map<int,int>mph,mpv;
-
-        for(int i=0;i<x;i++){
-            mph[hBars[i]]++;
-        }
-
-        for(int i=0;i<y;i++){
-            mpv[vBars[i]]++;
-        }
-
-        for(int i=0;i<x;i++){
-            int currbar = hBars[i];
-
-            int temp = currbar+1;
-
-
-            while(mph.count(temp)>0){
-                temp++;
-            }
-
-            int bottomlim = temp;
-
-            cout << "bottomlim "<<bottomlim<<endl;
-
-            temp = currbar-1;
-
-            while(mph.count(temp)>0){
-                temp--;
-            }
-
-            int upperlim = temp;
-
-            cout << "upperlim " << upperlim <<endl;
-            maxbhole = max(maxbhole , bottomlim - upperlim);
-        }
-
-        cout << "mbh " << maxbhole << endl;
-
-        for(int i=0;i<y;i++){
-            int currbar = vBars[i];
-
-            int temp = currbar+1;
-
-
-            while(mpv.count(temp)>0){
-                temp++;
-            }
-
-            int rightlim = temp;
-
-            cout<<"rightlim "<<rightlim<<endl;
-
-            temp = currbar-1;
-
-            while(mpv.count(temp)>0){
-                temp--;
-            }
-
-            int leftlim = temp;
-            cout<<"leftlim "<<leftlim<<endl;
-            maxlhole = max(maxlhole , rightlim - leftlim);
-
-            cout << "mlh " << maxlhole << endl; 
-        }
-
-        int mini = min(maxlhole,maxbhole);
-
-        cout<<mini<<endl;
-
-        return mini*mini;
+        int side = min(H, V);
+        return side * side;
     }
 };
