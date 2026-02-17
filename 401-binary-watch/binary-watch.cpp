@@ -45,31 +45,10 @@ public:
             findHours(hs-1,hrs,0,hr);
             findMins(ms-1,mins,0,min);
 
-            if(hr.empty()){
-                for(auto j:min){
-                    if(log10(j)+1 < 2){
-                        ans.push_back("0:0" + to_string(j));
-                    }
-                    else{
-                        ans.push_back("0:" + to_string(j));
-                    }
-                    
-                }
-            }
-
-            else if(min.empty()){
-                for(auto i:hr){
-                    string mm = "00";
+            for(auto i : hr){
+                for(auto j : min){
+                    string mm = (j < 10 ? "0" : "") + to_string(j);
                     ans.push_back(to_string(i) + ":" + mm);
-                }
-            }
-            else{
-                for(auto i:hr){
-                    for(auto j:min){
-                    
-                        string mm = (j < 10 ? "0" : "") + to_string(j);
-                        ans.push_back(to_string(i) + ":" + mm);
-                    }
                 }
             }
 
