@@ -11,41 +11,17 @@
  */
 class Solution {
 public:
-    string temp = "";
-    vector<string> v;
-
-    int todecimal(string s){
-        int num = 0;
-        for(char c : s){
-            num = (num<<1) + (c-'0');
-        }
-        return num;
-    }
-
-    void solve(TreeNode* root){
-        if(!root) return;
-
-        temp.push_back(root->val + '0');
+    int solve(TreeNode*root,int curr){
+        if(!root) return 0;
+        curr = (curr<<1) | root->val;
 
         if(!root->left && !root->right){
-            v.push_back(temp);
+            return curr;
         }
 
-        solve(root->left);
-        solve(root->right);
-
-        temp.pop_back();
+        return solve(root->left,curr) + solve(root->right,curr);
     }
-
     int sumRootToLeaf(TreeNode* root) {
-
-        solve(root);  
-
-        int sum = 0;
-        for(auto &i : v){
-            sum += todecimal(i);
-        }
-
-        return sum;
+        return solve(root,0);
     }
 };
