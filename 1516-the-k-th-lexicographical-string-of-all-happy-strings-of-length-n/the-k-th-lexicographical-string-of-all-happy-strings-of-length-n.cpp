@@ -1,31 +1,33 @@
 class Solution {
 public:
-    string res = "";
-
-    void solve(int n, int &k, string &curr){
-        
-        if(curr.length() == n){
-            k--;
-            if(k == 0) res = curr;
-            return;
-        }
-
-        for(char c : {'a','b','c'}){
-            if(!curr.empty() && curr.back() == c) continue;
-
-            curr.push_back(c);
-
-            solve(n,k,curr);
-
-            if(k == 0) return;
-
-            curr.pop_back();
-        }
-    }
-
     string getHappyString(int n, int k) {
-        string curr = "";
-        solve(n,k,curr);
-        return res;
+        int total = 3 *(1<<(n-1));
+
+        if(k>total)  return "";
+
+        string ans = "";
+
+
+        for(int pos=0;pos<n;pos++){
+
+            for(char c:{'a','b','c'}){
+
+                if(!ans.empty() && ans.back()==c) continue;
+
+                int rempositions = n - 1 - pos;
+
+                int posiblestrings = (1<<rempositions);
+
+                if(k>posiblestrings){
+                    k-=posiblestrings;
+                }
+                else{
+                    ans.push_back(c);
+                    break;
+                }
+            }
+        }
+
+        return ans;
     }
 };
