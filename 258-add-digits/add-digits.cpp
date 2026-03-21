@@ -3,6 +3,12 @@ public:
     int addDigits(int num) {
         if(num==0) return 0;
 
-        return (1+(num-1)%9);
+        if(num%9==0) return 9;
+
+        int k = num/9;
+
+        int newn = k*9;
+
+        return num - newn;
     }
 };
