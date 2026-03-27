@@ -22,10 +22,10 @@ public:
         
         for(int i=0;i<n;i++){ //(n)
             if(i&1){
-                rightShift(temp[i],m,k); // o(k*m)
+                rightShift(temp[i],m,k%m); // o(k*m)
             }
             else{
-                leftShift(temp[i],m,k);
+                leftShift(temp[i],m,k%m);
             }
         }
 
