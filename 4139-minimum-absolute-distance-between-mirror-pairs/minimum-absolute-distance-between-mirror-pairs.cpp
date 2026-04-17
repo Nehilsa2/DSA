@@ -1,53 +1,28 @@
 class Solution {
 public:
-    int findMirror(int nums){
-        
-        int num = 0;
 
-        while(nums!=0){
-            int rem = nums%10;
-            num = num*10 + rem;
-
-            nums/=10;
+    int reverseNum(int x){
+        int rev = 0;
+        while(x){
+            rev = rev*10 + x%10;
+            x/=10;
         }
-
-        return num;
-        
+        return rev;
     }
-
 
     int minMirrorPairDistance(vector<int>& nums) {
-        unordered_map<int,deque<int>>mp;
-        vector<int>mirror;
+        unordered_map<int,int> mp;
         int ans = INT_MAX;
-        int n = nums.size();
-        for(int i=0;i<n;i++){
-            mp[nums[i]].push_back(i);
-        }
-        for(int i=0;i<n;i++){
-            int num = findMirror(nums[i]);
-            
-            if(mp.find(num)!=mp.end() && !mp[num].empty()){
-                deque<int>dq = mp[num];
-                
 
-                while(!dq.empty() && dq.front()<=i){
-                    dq.pop_front();
-                }
-
-                if(!dq.empty()){
-                    ans = min(ans,abs(i-dq.front()));
-                }
-
-                if(ans==1){
-                    return 1;
-                }
+        for(int j=0;j<nums.size();j++){
+            if(mp.count(nums[j])){
+                ans = min(ans, j - mp[nums[j]]);
             }
+
+            int rev = reverseNum(nums[j]);
+            mp[rev] = j;
         }
 
-        return (ans==INT_MAX)? -1:ans;
+        return ans == INT_MAX ? -1 : ans;
     }
-
-    //[21,12,54,33,45]
-    //[12,21,45,33,54]
 };
