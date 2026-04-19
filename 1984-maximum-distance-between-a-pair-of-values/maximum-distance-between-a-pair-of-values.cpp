@@ -1,40 +1,27 @@
 class Solution {
 public:
-    int bs(int num1 ,vector<int>& nums2,int i){
-        int low = i;
-        int high = nums2.size()-1;
-        int ans = -1;
-
-        while(low<=high){
-            int mid = low + (high-low)/2;
-
-            if(nums2[mid]>=num1){
-                ans = mid;
-                low = mid+1;
-            }
-            else{
-                high = mid-1;
-            }
-        }
-
-        return ans;
-    }
     int maxDistance(vector<int>& nums1, vector<int>& nums2) {
         int maxdist = INT_MIN;
 
         int n1 = nums1.size();
         int n2 = nums2.size();
+        int j = n2-1;
 
-
-        for(int i=0;i<n1 && i<n2;i++){
-            int justGreater = bs(nums1[i],nums2,i);
-            
-            if(justGreater!=-1){
-                maxdist = max(maxdist,justGreater-i);
-            }
-
+        if(n1>n2){
+            n1=n2;
         }
 
-        return (maxdist==INT_MIN)? 0 : maxdist;
+        for(int i=n1-1;i>=0;i--){
+        
+            while(j>=i && nums2[j]<nums1[i]){
+                j--;
+            }
+
+            if(j>=i){
+                maxdist = max(maxdist,j-i);
+            }
+        }
+
+        return (maxdist==INT_MIN) ? 0:maxdist;
     }
 };
