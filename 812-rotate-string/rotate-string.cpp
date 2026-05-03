@@ -1,18 +1,28 @@
 class Solution {
 public:
     bool rotateString(string s, string goal) {
-        int sh = s.length();
+        int n = s.length();
 
-        for(int i=1;i<=sh;i++){
-            reverse(s.begin(),s.begin()+1);
-            reverse(s.begin()+1,s.end());
-            reverse(s.begin(),s.end());
+        s = s+s;
+        int i = 0;
+        int j = 0;
 
-            if(s==goal){
-                return true;
+        string temp = "";
+        while(j<2*n){
+            temp+=s[j];
+            if(j-i+1>n){
+                temp.erase(0,1);
+                i++;
             }
-        }
 
+            if(j-i+1==n){
+                if(goal==temp){
+                    return true;
+                }
+            }
+            j++;
+        }
+        
         return false;
     }
 };
